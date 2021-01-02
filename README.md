@@ -12,8 +12,9 @@ This project is the programming assignment for *Module 2: Visual Features - Dete
 - Use the estimated camera motion to build the vehicle trajectory.
 
 <p align="center">
-<img src="output/visual-odometry.gif" style="zoom:50%;"/>
+<img src="output/visual-odometry.gif" width=67% height=67%/>
 </p>
+
 
 ## Preliminaries
 
@@ -45,8 +46,9 @@ Upon creation of the dataset handler object, all the frames will be automaticall
 Here is an example of the depth maps:
 
 <p align="center">
-<img src="output/depth.png" style="zoom:50%;"/>
+<img src="output/depth.png" width=67% height=67%/>
 </p>
+
 
 **Notes about Depth Maps**
 
@@ -90,6 +92,12 @@ def extract_features(image):
     
     return kp, des
 ```
+
+Here is an example of the extracted features:
+
+<p align="center">
+<img src="output/feature-extraction.png" width=67% height=67%/>
+</p>
 
 Feature Matching
 
