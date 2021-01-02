@@ -43,10 +43,22 @@ The dataset handler contains 52 data frames. Each frame contains an RGB image an
 
 Upon creation of the dataset handler object, all the frames will be automatically read and loaded. The frame content can be accessed by using `images`, `images_rgb`, `depth_maps` attributes of the dataset handler object along with the index of the requested frame.
 
+Here is an example of the grayscale images:
+
+<p align="center">
+<img src="output/image.png" width=67% height=67%/>
+</p>
+
+Here is an example of the RGB images:
+
+<p align="center">
+<img src="output/image-rgb.png" width=67% height=67%/>
+</p>
+
 Here is an example of the depth maps:
 
 <p align="center">
-<img src="output/depth.png" width=67% height=67%/>
+<img src="output/depth-maps.png" width=67% height=67%/>
 </p>
 
 
@@ -56,19 +68,19 @@ The maximum depth distance is 1000. This value of depth shows that the selected 
 
 ## Feature Extraction
 
-The purpose of this section is to implement a function to extract features from an image. A **feature** is a point of interest in an image defined by its image pixel coordinates. A **descriptor** is an n-dimensional vector that provides a summary of the image information around the detected feature. The following image illustrates these properties.
+The purpose of this section is to implement a function to extract features from an image. A **feature** is a point of interest in an image defined by its image pixel coordinates. A **descriptor** is an n-dimensional vector that summarizes the image information around the detected feature. The following image illustrates the feature properties.
 
 <p align="center">
-<img src="output/features.png" />
+<img src="output/feature-slide.png" />
 </p>
 
 Here is a list of common feature detectors:
 
-- **S**cale-**I**nvariant **F**eature **T**ransform (**SIFT**)
-- **S**peeded-**U**p **R**obust **F**eatures (**SURF**)
-- **F**eatures from **A**ccelerated **S**egment **T**est (**FAST**)
-- **B**inary **R**obust **I**ndependent **E**lementary **F**eatures (**BRIEF**)
-- **O**riented FAST and **R**otated **B**RIEF (**ORB**)
+- Scale-Invariant Feature Transform (**SIFT**)
+- Speeded-Up Robust Features (**SURF**)
+- Features from Accelerated Segment Test (**FAST**)
+- Binary Robust Independent Elementary Features (**BRIEF**)
+- Oriented FAST and Rotated BRIEF (**ORB**)
 
 The OpenCV documentation provides implementation [examples](https://docs.opencv.org/3.4.3/db/d27/tutorial_py_table_of_contents_feature2d.html) of these detectors.
 
