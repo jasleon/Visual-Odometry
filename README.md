@@ -38,15 +38,17 @@ The dataset handler contains 52 data frames. Each frame contains an RGB image an
 
 Upon creation of the dataset handler object, all the frames will be automatically read and loaded. The frame content can be accessed by using `images`, `images_rgb`, `depth_maps` attributes of the dataset handler object along with the index of the requested frame.
 
-**Notes on Depth Maps**
+**Notes about Depth Maps**
 
-The maximum depth distance is 1000. This value of depth shows that the selected pixel is at least 1000m (1km) far from the camera, however the exact distance of this pixel from the camera is unknown. Having this kind of points in further trajectory estimation might affect the trajectory precision.
+The maximum depth distance is 1000. This value of depth shows that the selected pixel is at least 1000m (1km) far from the camera however, the exact distance of this pixel from the camera is unknown. Having these points in further trajectory estimation might affect precision.
 
 ## Feature Extraction
 
-The purpose of this section is implementing a function to extract features from an image. A **feature** is a point of interest in an image defined by its image pixel coordinates. In contrast, a **descriptor** is an n-dimensional vector that provides a summary of the image information around the detected feature. The following image illustrates these definitions.
+The purpose of this section is to implement a function to extract features from an image. A **feature** is a point of interest in an image defined by its image pixel coordinates. In contrast, a **descriptor** is an n-dimensional vector that provides a summary of the image information around the detected feature. The following image illustrates these feature properties.
 
-![features](output/features.png)
+<p align="center">
+<img src="output\features.png" />
+</p>
 
 Here is a list of common feature detectors:
 
