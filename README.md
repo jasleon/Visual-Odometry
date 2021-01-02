@@ -1,8 +1,6 @@
 # Visual Odometry for Localization in Autonomous Driving
 
-This algorithm applies visual odometry to estimate the trajectory of a self-driving car. It processes images taken with a monocular camera set up on the vehicle.
-
-![output](output/visual-odometry.gif)
+This software pipeline implements visual odometry to estimate the trajectory of a self-driving car. It processes images taken with a monocular camera set up on the vehicle.
 
 This project is the programming assignment for *Module 2: Visual Features - Detection, Description and Matching* in the [Visual Perception for Self-Driving Cars](https://www.coursera.org/learn/visual-perception-self-driving-cars?) course. The [University of Toronto](https://www.utoronto.ca/) provided the starter code of this project.
 
@@ -13,11 +11,20 @@ This project is the programming assignment for *Module 2: Visual Features - Dete
 - Use the found matches to estimate the camera motion between subsequent photographs.
 - Use the estimated camera motion to build the vehicle trajectory.
 
+![result](output/visual-odometry.gif)
+
 ## Preliminaries
 
-According to [Wikipedia](https://en.wikipedia.org/wiki/Visual_odometry),
+Here is a definition of **visual odometry** taken from [Wikipedia](https://en.wikipedia.org/wiki/Visual_odometry),
 
 > In robotics and computer vision, visual odometry is the process of determining the position and orientation of a robot by analyzing the associated camera images. It has been used in a wide variety of robotic applications, such as on the Mars Exploration Rovers.
+
+The algorithm implementation is divided into four parts [[1]](http://publications.lib.chalmers.se/records/fulltext/246134/246134.pdf).
+
+1. Acquire an image and extract features using a *feature detector*.
+2. Find corresponding features in another image with *feature matching* or *feature tracking*.
+3. Determine the camera pose from the *Perspective-n-Point* solution using the *RANSAC* scheme.
+4. Propagate the vehicle trajectory from the camera pose estimation.
 
 ## Loading and Visualizing the Data
 
