@@ -11,7 +11,9 @@ This project is the programming assignment for *Module 2: Visual Features - Dete
 - Use the found matches to estimate the camera motion between subsequent photographs.
 - Use the estimated camera motion to build the vehicle trajectory.
 
-![result](output/visual-odometry.gif)
+<p align="center">
+<img src="output/visual-odometry.gif" style="zoom:50%;"/>
+</p>
 
 ## Preliminaries
 
@@ -19,12 +21,14 @@ Here is a definition of **visual odometry** from [Wikipedia](https://en.wikipedi
 
 > In robotics and computer vision, visual odometry is the process of determining the position and orientation of a robot by analyzing the associated camera images. It has been used in a wide variety of robotic applications, such as on the Mars Exploration Rovers.
 
-The algorithm implementation is divided into four parts [[1]](http://publications.lib.chalmers.se/records/fulltext/246134/246134.pdf).
+The algorithm implementation is divided into four parts.
 
 1. Acquire an image and extract features using a *feature detector*.
 2. Find corresponding features in another image with *feature matching* or *feature tracking*.
 3. Determine the camera pose from the *Perspective-n-Point* solution using the *RANSAC* scheme.
 4. Propagate the vehicle trajectory from the camera pose estimation.
+
+This [thesis](http://publications.lib.chalmers.se/records/fulltext/246134/246134.pdf) covers each part of the algorithm in greater detail.
 
 ## Loading and Visualizing the Data
 
@@ -38,16 +42,22 @@ The dataset handler contains 52 data frames. Each frame contains an RGB image an
 
 Upon creation of the dataset handler object, all the frames will be automatically read and loaded. The frame content can be accessed by using `images`, `images_rgb`, `depth_maps` attributes of the dataset handler object along with the index of the requested frame.
 
+Here is an example of the depth maps:
+
+<p align="center">
+<img src="output/depth.png" style="zoom:50%;"/>
+</p>
+
 **Notes about Depth Maps**
 
 The maximum depth distance is 1000. This value of depth shows that the selected pixel is at least 1000m (1km) far from the camera however, the exact distance of this pixel from the camera is unknown. Having these points in further trajectory estimation might affect precision.
 
 ## Feature Extraction
 
-The purpose of this section is to implement a function to extract features from an image. A **feature** is a point of interest in an image defined by its image pixel coordinates. In contrast, a **descriptor** is an n-dimensional vector that provides a summary of the image information around the detected feature. The following image illustrates these feature properties.
+The purpose of this section is to implement a function to extract features from an image. A **feature** is a point of interest in an image defined by its image pixel coordinates. A **descriptor** is an n-dimensional vector that provides a summary of the image information around the detected feature. The following image illustrates these properties.
 
 <p align="center">
-<img src="output\features.png" />
+<img src="output/features.png" />
 </p>
 
 Here is a list of common feature detectors:
