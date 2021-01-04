@@ -68,7 +68,7 @@ The maximum depth distance is 1000. This value of depth shows that the selected 
 
 ## Feature Extraction
 
-The purpose of this section is to implement a function to extract features from an image. A **feature** is a point of interest in an image defined by its image pixel coordinates. A **descriptor** is an n-dimensional vector that summarizes the image information around the detected feature. The following image illustrates the feature properties.
+The purpose of this section is to implement a function to extract features from an image. A **feature** is a point of interest in an image defined by its image pixel coordinates. A **descriptor** is an n-dimensional vector that summarizes the image information around the detected feature. The following figure illustrates these properties.
 
 <p align="center">
 <img src="output/feature-slide.png" />
@@ -110,8 +110,19 @@ Here is an example of the extracted features:
 <p align="center">
 <img src="output/feature-extraction.png" width=67% height=67%/>
 </p>
+## Feature Matching
 
-Feature Matching
+The purpose of this section is to implement a function to match features in a sequence of images. **Feature matching** is the process of finding the best match in the next image of the sequence, given a feature and its descriptor in the current image.
+
+<p align="center">
+<img src="output/matcher-slide.png" />
+</p>
+
+OpenCV provides two techniques to match different descriptors: Brute-Force matcher and FLANN based matcher.
+
+The **Brute-Force** matcher compares the descriptor of one feature in the first image to all other features in the second image. The algorithm then matches the descriptor with the shortest distance to the descriptor in the first image.
+
+**FLANN** stands for Fast Library for Approximate Nearest Neighbors. It contains a collection of algorithms optimized for fast neighbor search in datasets and for high dimensional features.
 
 Trajectory Estimation
 
