@@ -110,6 +110,7 @@ Here is an example of the extracted features:
 <p align="center">
 <img src="output/feature-extraction.png" width=67% height=67%/>
 </p>
+
 ## Feature Matching
 
 The purpose of this section is to implement a function to match features in a sequence of images. **Feature matching** is the process of finding the best match in the next image of the sequence, given a feature and its descriptor in the current image.
