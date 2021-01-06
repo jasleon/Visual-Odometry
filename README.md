@@ -126,6 +126,41 @@ The **Brute-Force** matcher compares the descriptor of one feature in the first 
 
 **FLANN** stands for Fast Library for Approximate Nearest Neighbors. It contains a collection of algorithms optimized for fast neighbor search in datasets and for high dimensional features.
 
+```python
+def match_features(des1, des2):
+    """
+    Match features from two images
+
+    Arguments:
+    des1 -- list of the keypoint descriptors in the first image
+    des2 -- list of the keypoint descriptors in the second image
+
+    Returns:
+    match -- list of matched features from two images. Each match[i] is k or less matches for the same query descriptor
+    """
+    # Define FLANN parameters
+    FLANN_INDEX_LSH = 6
+    index_params = dict(algorithm = FLANN_INDEX_LSH,
+                        table_number = 6,
+                        key_size = 12,
+                        multi_probe_level = 1)
+    search_params = dict(checks = 50)
+    
+    # Initiate FLANN matcher
+    flann = cv2.FlannBasedMatcher(index_params, search_params)
+    
+    # Find matches with FLANN
+    match = flann.knnMatch(des1, des2, k=2)
+    
+    return match
+```
+
+Here is an example of the matched features:
+
+<p align="center">
+<img src="output/feature-matching.png" />
+</p>
+
 Trajectory Estimation
 
 References
