@@ -12,8 +12,9 @@ This project is the programming assignment for *Module 2: Visual Features - Dete
 - Use the estimated camera motion to build the vehicle trajectory.
 
 <p align="center">
-<img src="output/visual-odometry.gif" width=67% height=67%/>
+<img src="output/camera-motion.gif" width=67% height=67%/>
 </p>
+
 
 
 ## Preliminaries
@@ -96,11 +97,11 @@ def extract_features(image):
     kp -- list of the extracted keypoints (features) in an image
     des -- list of the keypoint descriptors in an image
     """
-    # Initiate SURF detector
-    surf = cv2.xfeatures2d.SURF_create(400)
-        
-    # Find keypoints and descriptors directly
-    kp, des = surf.detectAndCompute(image, None)
+    # Initiate ORB detector
+    orb = cv2.ORB_create(nfeatures=1500)
+    
+    # Find the keypoints and descriptors with ORB
+    kp, des = orb.detectAndCompute(image, None)
     
     return kp, des
 ```
