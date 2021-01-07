@@ -1,6 +1,6 @@
 # Visual Odometry for Localization in Autonomous Driving
 
-This software pipeline implements visual odometry to estimate the trajectory of a self-driving car. It processes images taken with a monocular camera set up on the vehicle.
+This project implements visual odometry to estimate the trajectory of a self-driving car. It processes images taken with a monocular camera set up on the vehicle.
 
 This project is the programming assignment for *Module 2: Visual Features - Detection, Description and Matching* in the [Visual Perception for Self-Driving Cars](https://www.coursera.org/learn/visual-perception-self-driving-cars?) course. The [University of Toronto](https://www.utoronto.ca/) provided the starter code of this project.
 
@@ -114,7 +114,7 @@ Here is an example of the extracted features:
 
 ## Feature Matching
 
-The purpose of this section is to implement a function to match features in a sequence of images. **Feature matching** is the process of finding the best match in the next image of the sequence, given a feature and its descriptor in the current image.
+The purpose of this section is to implement a function to match features in a sequence of images. **Feature matching** is the process of establishing correspondences between two images of the same sequence.
 
 <p align="center">
 <img src="output/matcher-slide.png" />
