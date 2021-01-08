@@ -74,6 +74,10 @@ The purpose of this section is to implement a function to extract features from 
 <p align="center">
 <img src="output/feature-slide.png" />
 </p>
+<p align="center">
+    <b>Source:</b> <a href="https://www.coursera.org/learn/visual-perception-self-driving-cars/lecture/CYWEj/lesson-2-feature-descriptors" target="_blank">Lesson 2: Feature Descriptors</a>
+</p>
+
 
 Here is a list of common feature detectors:
 
@@ -160,6 +164,7 @@ Here is an example of the matched features:
 <p align="center">
 <img src="output/feature-matching.png" />
 </p>
+
 ## Trajectory Estimation
 
 The purpose of this section is to develop a function to determine the pose of the self-driving car. **Visual odometry** provides a pose estimate by examining the changes that motion induces in the on-board camera.
