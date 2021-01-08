@@ -2,7 +2,7 @@
 
 This project implements visual odometry to estimate the trajectory of a self-driving car. It analyzes images taken with a monocular camera set up on the vehicle.
 
-This project is the programming assignment for *Module 2: Visual Features - Detection, Description and Matching* in the [Visual Perception for Self-Driving Cars](https://www.coursera.org/learn/visual-perception-self-driving-cars?) course. The [University of Toronto](https://www.utoronto.ca/) provided the starter code of this project.
+This project is also the programming assignment for *Module 2: Visual Features - Detection, Description and Matching* in the [Visual Perception for Self-Driving Cars](https://www.coursera.org/learn/visual-perception-self-driving-cars?) course. The [University of Toronto](https://www.utoronto.ca/) provided the starter code and the simulation data.
 
 **The steps of this project are the following:**
 
@@ -77,8 +77,6 @@ The purpose of this section is to implement a function to extract features from 
 <p align="center">
     <b>Source:</b> <a href="https://www.coursera.org/learn/visual-perception-self-driving-cars/lecture/CYWEj/lesson-2-feature-descriptors" target="_blank">Lesson 2: Feature Descriptors</a>
 </p>
-
-
 Here is a list of common feature detectors:
 
 - Scale-Invariant Feature Transform (**SIFT**)
@@ -123,7 +121,9 @@ The purpose of this section is to implement a function to match features in a se
 <p align="center">
 <img src="output/matcher-slide.png" />
 </p>
-
+<p align="center">
+    <b>Source:</b> <a href="https://www.coursera.org/learn/visual-perception-self-driving-cars/lecture/YLRTR/lesson-3-part-1-feature-matching" target="_blank">Lesson 3: Feature Matching</a>
+</p>
 OpenCV provides two techniques to match different descriptors: Brute-Force matcher and FLANN based matcher.
 
 The **Brute-Force** matcher compares one descriptor in the first image to all descriptors in the second image. The algorithm then matches the descriptor with the shortest distance to the descriptor in the first image.
@@ -169,7 +169,7 @@ Here is an example of the matched features:
 
 The purpose of this section is to develop a function to determine the pose of the self-driving car. **Visual odometry** provides a pose estimate by examining the changes that motion induces in the on-board camera.
 
-At this point, we have extracted features `f[k - 1]` and `f[k]` from two consecutive frames `I[k - 1]` and `I[k]`. We can use these features to estimate the camera motion by establishing a 3D-2D correspondence. In other words, we need to find a camera projection such that features `f[k - 1]` expressed in 3D (real-world coordinates) correspond to features `f[k]` in 2D (camera coordinates).
+Previously, we extracted features `f[k - 1]` and `f[k]` from two consecutive frames `I[k - 1]` and `I[k]`. We can use these features to estimate the camera motion by establishing their 3D-2D correspondence. In other words, we need to find a camera projection such that features `f[k - 1]` expressed in 3D (real-world coordinates) correspond to features `f[k]` in 2D (camera coordinates).
 
 Estimating Camera Motion between a Pair of Images
 
