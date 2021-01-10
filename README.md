@@ -167,11 +167,22 @@ Here is an example of the matched features:
 
 ## Trajectory Estimation
 
-The purpose of this section is to develop a function to determine the pose of the self-driving car. **Visual odometry** provides a pose estimate by examining the changes that motion induces in the on-board camera.
+The purpose of this section is to develop a function to determine the pose of the self-driving car. **Visual odometry** provides a pose estimate by examining the changes that motion induces in the onboard camera.
 
-Previously, we extracted features `f[k - 1]` and `f[k]` from two consecutive frames `I[k - 1]` and `I[k]`. We can use these features to estimate the camera motion by establishing their 3D-2D correspondence. In other words, we need to find a camera projection such that features `f[k - 1]` expressed in 3D (real-world coordinates) correspond to features `f[k]` in 2D (camera coordinates).
+Previously, we extracted features `f[k - 1]` and `f[k]` from two consecutive frames `I[k - 1]` and `I[k]`. We can use these features to estimate the camera motion by establishing their 3D-2D correspondence. In other words, we need to find a joint rotation-translation matrix `[R|t]` such that features `f[k - 1]` expressed in 3D world coordinates correspond to features `f[k]` in 2D image coordinates.
 
-Estimating Camera Motion between a Pair of Images
+Here is a slide that summarizes the motion estimation problem
+
+<p align="center">
+<img src="output/estimation-slide.png" />
+</p>
+<p align="center">
+    <b>Source:</b> <a href="https://www.coursera.org/learn/visual-perception-self-driving-cars/lecture/Zq8NO/lesson-5-visual-odometry" target="_blank">Lesson 5: Visual Odometry</a>
+</p>
+
+### Estimating Camera Motion between a Pair of Images
+
+One way we can solve for the rotation and translation is by using the Perspective-n-Point algorithm.
 
 Camera Trajectory Estimation
 
