@@ -124,6 +124,7 @@ The purpose of this section is to implement a function to match features in a se
 <p align="center">
     <b>Source:</b> <a href="https://www.coursera.org/learn/visual-perception-self-driving-cars/lecture/YLRTR/lesson-3-part-1-feature-matching" target="_blank">Lesson 3: Feature Matching</a>
 </p>
+
 OpenCV provides two techniques to match different descriptors: Brute-Force matcher and FLANN based matcher.
 
 The **Brute-Force** matcher compares one descriptor in the first image to all descriptors in the second image. The algorithm then matches the descriptor with the shortest distance to the descriptor in the first image.
