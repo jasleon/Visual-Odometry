@@ -2,7 +2,7 @@
 
 This project implements visual odometry to estimate the trajectory of a self-driving car. It analyzes images taken with a monocular camera set up on the vehicle.
 
-This project is also the programming assignment for *Module 2: Visual Features - Detection, Description and Matching* in the [Visual Perception for Self-Driving Cars](https://www.coursera.org/learn/visual-perception-self-driving-cars?) course. The [University of Toronto](https://www.utoronto.ca/) provided the starter code and the simulation data.
+I submitted this project for the programming assignment of *Module 2: Visual Features - Detection, Description and Matching* in the [Visual Perception for Self-Driving Cars](https://www.coursera.org/learn/visual-perception-self-driving-cars?) course. The [University of Toronto](https://www.utoronto.ca/) provided the starter code and the data from the [CARLA](https://carla.org/) simulator.
 
 **The steps of this project are the following:**
 
@@ -183,7 +183,15 @@ Here is a slide that summarizes the motion estimation problem
 
 ### Estimating Camera Motion between a Pair of Images
 
-One way we can solve for the rotation and translation is by using the Perspective-n-Point algorithm.
+One way we can solve for the rotation and translation is by using the *Perspective-n-Point (PnP)* algorithm.
+
+The algorithm implementation consists of three steps.
+
+- Solve for the initial guess of `[R|t]` using [Direct Linear Transform (DLT)](https://en.wikipedia.org/wiki/Direct_linear_transformation).
+- Improve the solution using the [Levenberg-Marquardt algorithm (LM)](https://en.wikipedia.org/wiki/Levenberg%E2%80%93Marquardt_algorithm).
+- Use [random sampling consensus (RANSAC)](https://en.wikipedia.org/wiki/Random_sample_consensus) to handle outliers.
+
+OpenCV has a robust implementation of the PnP algorithm in the functions `cv2.solvePnP()` and `cv2.solvePnPRansac()`.
 
 Camera Trajectory Estimation
 
