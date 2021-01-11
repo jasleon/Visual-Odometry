@@ -185,13 +185,23 @@ Here is a slide that summarizes the motion estimation problem
 
 One way we can solve for the rotation and translation is by using the *Perspective-n-Point (PnP)* algorithm.
 
-The algorithm implementation consists of three steps.
+This algorithm has three steps.
 
 - Solve for the initial guess of `[R|t]` using [Direct Linear Transform (DLT)](https://en.wikipedia.org/wiki/Direct_linear_transformation).
 - Improve the solution using the [Levenberg-Marquardt algorithm (LM)](https://en.wikipedia.org/wiki/Levenberg%E2%80%93Marquardt_algorithm).
 - Use [random sampling consensus (RANSAC)](https://en.wikipedia.org/wiki/Random_sample_consensus) to handle outliers.
 
-OpenCV has a robust implementation of the PnP algorithm in the functions `cv2.solvePnP()` and `cv2.solvePnPRansac()`.
+OpenCV has a robust implementation of the PnP algorithm in the functions `cv2.solvePnP()` and `cv2.solvePnPRansac()`. These functions take in three basic arguments.
+
+- *objectPoints* an numpy array of object points in camera coordinates (3D).
+- *imagePoints* an numpy array of corresponding image points (2D).
+- *cameraMatrix* the input camera intrinsic matrix K.
+
+We already have *imagePoints* and *cameraMatrix*. However, we still need to express pixels from features `f[k - 1]` in camera coordinates to get *objectPoints*. This coordinate transformation derives from the pinhole camera model and is given by the equation.
+
+<p align="center">
+<img src="https://render.githubusercontent.com/render/math?math=%5Cbegin%7Bbmatrix%7D%0AX_%7Bc%7D%20%5C%5C%0AY_%7Bc%7D%20%5C%5C%0AZ_%7Bc%7D%0A%5Cend%7Bbmatrix%7D%0A%3D%0A%5Cboldsymbol%7BK%7D%5E%7B-1%7D%0A%5Cbegin%7Bbmatrix%7D%0Ax_%7Bi%7D%20%5C%5C%0Ay_%7Bi%7D%20%5C%5C%0Az_%7Bi%7D%0A%5Cend%7Bbmatrix%7D%0A%3D%0A%5Cboldsymbol%7BK%7D%5E%7B-1%7D%0As%0A%5Cbegin%7Bbmatrix%7D%0Au%20%5C%5C%0Av%20%5C%5C%0A1%0A%5Cend%7Bbmatrix%7D%0A">
+</p>
 
 Camera Trajectory Estimation
 
