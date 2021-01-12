@@ -168,9 +168,9 @@ Here is an example of the matched features:
 
 ## Trajectory Estimation
 
-The purpose of this section is to develop a function to determine the pose of the self-driving car. **Visual odometry** provides a pose estimate by examining the changes that motion induces in the onboard camera.
+The purpose of this section is to develop a function to determine the pose of the self-driving car. **Visual odometry** is a method to estimate the pose by examining the changes that motion induces in the onboard camera.
 
-Previously, we extracted features `f[k - 1]` and `f[k]` from two consecutive frames `I[k - 1]` and `I[k]`. We can use these features to estimate the camera motion by establishing their 3D-2D correspondence. In other words, we need to find a joint rotation-translation matrix `[R|t]` such that features `f[k - 1]` expressed in 3D world coordinates correspond to features `f[k]` in 2D image coordinates.
+Previously, we extracted features `f[k - 1]` and `f[k]` from two consecutive frames `I[k - 1]` and `I[k]`. We can use these features to estimate the camera motion from 3D-2D point correspondences. In other words, we need to find a joint rotation-translation matrix `[R|t]` such that features `f[k - 1]` expressed in 3D world coordinates correspond to features `f[k]` in 2D image coordinates.
 
 Here is a slide that summarizes the motion estimation problem
 
@@ -191,17 +191,52 @@ This algorithm has three steps.
 - Improve the solution using the [Levenberg-Marquardt algorithm (LM)](https://en.wikipedia.org/wiki/Levenberg%E2%80%93Marquardt_algorithm).
 - Use [random sampling consensus (RANSAC)](https://en.wikipedia.org/wiki/Random_sample_consensus) to handle outliers.
 
-OpenCV has a robust implementation of the PnP algorithm in the functions `cv2.solvePnP()` and `cv2.solvePnPRansac()`. These functions take in three basic arguments.
+Fortunately, OpenCV has a robust implementation of the PnP algorithm in `cv2.solvePnP()` and `cv2.solvePnPRansac()`. These functions take three arguments.
 
-- *objectPoints* an numpy array of object points in camera coordinates (3D).
-- *imagePoints* an numpy array of corresponding image points (2D).
+- *objectPoints* a numpy array of object points in camera coordinates (3D).
+- *imagePoints* a numpy array of corresponding image points (2D).
 - *cameraMatrix* the input camera intrinsic matrix K.
 
-We already have *imagePoints* and *cameraMatrix*. However, we still need to express pixels from features `f[k - 1]` in camera coordinates to get *objectPoints*. This coordinate transformation derives from the pinhole camera model and is given by the equation.
+We then need to express pixels from features `f[k - 1]` in camera coordinates to get *objectPoints*. This coordinate transformation derives from the pinhole camera model and is given by the equation.
 
 <p align="center">
-<img src="https://render.githubusercontent.com/render/math?math=%5Cbegin%7Bbmatrix%7D%0AX_%7Bc%7D%20%5C%5C%0AY_%7Bc%7D%20%5C%5C%0AZ_%7Bc%7D%0A%5Cend%7Bbmatrix%7D%0A%3D%0A%5Cboldsymbol%7BK%7D%5E%7B-1%7D%0A%5Cbegin%7Bbmatrix%7D%0Ax_%7Bi%7D%20%5C%5C%0Ay_%7Bi%7D%20%5C%5C%0Az_%7Bi%7D%0A%5Cend%7Bbmatrix%7D%0A%3D%0A%5Cboldsymbol%7BK%7D%5E%7B-1%7D%0As%0A%5Cbegin%7Bbmatrix%7D%0Au%20%5C%5C%0Av%20%5C%5C%0A1%0A%5Cend%7Bbmatrix%7D%0A">
+<img src="https://render.githubusercontent.com/render/math?math=%5Cmathbf%7BP%7D_%7Bc%7D%0A%3D%0A%5Cbegin%7Bbmatrix%7D%0AX_%7Bc%7D%20%5C%5C%0AY_%7Bc%7D%20%5C%5C%0AZ_%7Bc%7D%0A%5Cend%7Bbmatrix%7D%0A%3D%0A%5Cmathbf%7BK%7D%5E%7B-1%7D%0A%5Cbegin%7Bbmatrix%7D%0Ax_%7Bi%7D%20%5C%5C%0Ay_%7Bi%7D%20%5C%5C%0Az_%7Bi%7D%0A%5Cend%7Bbmatrix%7D%0A%3D%0A%5Cmathbf%7BK%7D%5E%7B-1%7D%20s%20%0A%5Cbegin%7Bbmatrix%7D%0Au%20%5C%5C%0Av%20%5C%5C%0A1%20%0A%5Cend%7Bbmatrix%7D%0A">
 </p>
+
+This section of code shows the core implementation of the `camera_motion` function.
+
+```python
+    # Iterate through the matched features
+    for m in match:
+        # Get the pixel coordinates of features f[k - 1] and f[k]
+        u1, v1 = kp1[m.queryIdx].pt
+        u2, v2 = kp2[m.trainIdx].pt
+        
+        # Get the scale of features f[k - 1] from the depth map
+        s = depth1[int(v1), int(u1)]
+        
+        # Check for valid scale values
+        if s < 1000:
+            # Transform pixel coordinates to camera coordinates using the pinhole camera model
+            p_c = np.linalg.inv(k) @ (s * np.array([u1, v1, 1]))
+            
+            # Save the results
+            image1_points.append([u1, v1])
+            image2_points.append([u2, v2])
+            objectpoints.append(p_c)
+        
+    # Convert lists to numpy arrays
+    objectpoints = np.vstack(objectpoints)
+    imagepoints = np.array(image2_points)
+    
+    # Determine the camera pose from the Perspective-n-Point solution using the RANSAC scheme
+    _, rvec, tvec, _ = cv2.solvePnPRansac(objectpoints, imagepoints, k, None)
+    
+    # Convert rotation vector to rotation matrix
+    rmat, _ = cv2.Rodrigues(rvec)
+```
+
+The *Detailed Description* section of [OpenCV: Camera Calibration and 3D Reconstruction](https://docs.opencv.org/3.4.3/d9/d0c/group__calib3d.html) explains the connection between the 3D world coordinate system and the 2D image coordinate system.
 
 Camera Trajectory Estimation
 
