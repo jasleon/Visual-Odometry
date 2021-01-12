@@ -238,7 +238,8 @@ This section of code shows the core implementation of the `camera_motion` functi
 
 The *Detailed Description* section of [OpenCV: Camera Calibration and 3D Reconstruction](https://docs.opencv.org/3.4.3/d9/d0c/group__calib3d.html) explains the connection between the 3D world coordinate system and the 2D image coordinate system.
 
-Camera Trajectory Estimation
+## To do
 
-References
-
+- [ ] Add section Dependencies
+- [ ] Add section Camera Trajectory Estimation
+- [ ] Add section References
