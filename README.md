@@ -238,6 +238,49 @@ This section of code shows the core implementation of the `camera_motion` functi
 
 The *Detailed Description* section of [OpenCV: Camera Calibration and 3D Reconstruction](https://docs.opencv.org/3.4.3/d9/d0c/group__calib3d.html) explains the connection between the 3D world coordinate system and the 2D image coordinate system.
 
+### Camera Trajectory Estimation
+
+Finally, we build the vehicle trajectory by concatenating the camera pose in each subsequent image.
+
+It is important to note that the `estimate_motion` function returns the rotation and translation from the world coordinate system to the camera coordinate system (see [cv2.solvePnP](https://docs.opencv.org/3.4.3/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d)).
+
+We, therefore, need to use the inverse to express the trajectory in the world coordinate system.
+
+This section of code shows the core implementation of the `estimate_trajectory` function.
+
+```python
+    # Create variables for computation
+    trajectory = np.zeros((3, len(matches) + 1))
+    robot_pose = np.zeros((len(matches) + 1, 4, 4))
+    
+    # Initialize camera pose
+    robot_pose[0] = np.eye(4)
+    
+    # Iterate through the matched features
+    for i in range(len(matches)):
+        # Estimate camera motion between a pair of images
+        rmat, tvec, image1_points, image2_points = estimate_motion(matches[i], kp_list[i], kp_list[i + 1], k, depth_maps[i])
+        
+        # Save camera movement visualization
+        if save:
+            image = visualize_camera_movement(dataset_handler.images_rgb[i], image1_points, dataset_handler.images_rgb[i + 1], image2_points)
+            plt.imsave('{}/frame_{:02d}.jpg'.format(save, i), image)
+        
+        # Determine current pose from rotation and translation matrices
+        current_pose = np.eye(4)
+        current_pose[0:3, 0:3] = rmat
+        current_pose[0:3, 3] = tvec.T
+        
+        # Build the robot's pose from the initial position by multiplying previous and current poses
+        robot_pose[i + 1] = robot_pose[i] @ np.linalg.inv(current_pose)
+        
+        # Calculate current camera position from origin
+        position = robot_pose[i + 1] @ np.array([0., 0., 0., 1.])
+        
+        # Build trajectory
+        trajectory[:, i + 1] = position[0:3]
+```
+
 ## To do
 
 - [ ] Add section Dependencies
