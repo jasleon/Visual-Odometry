@@ -240,11 +240,19 @@ The *Detailed Description* section of [OpenCV: Camera Calibration and 3D Reconst
 
 ### Camera Trajectory Estimation
 
-Finally, we build the vehicle trajectory by concatenating the camera pose in each subsequent image.
+Finally, we build the vehicle trajectory by considering the camera pose change in each subsequent image.
 
 It is important to note that the `estimate_motion` function returns the rotation and translation from the world coordinate system to the camera coordinate system (see [cv2.solvePnP](https://docs.opencv.org/3.4.3/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d)).
 
+<p align="center">
+<img src="https://render.githubusercontent.com/render/math?math=%5Cbegin%7Bbmatrix%7D%20X_c%20%5C%5C%20Y_c%20%5C%5C%20Z_c%20%5C%5C%201%20%5Cend%7Bbmatrix%7D%20%3D%20%5Chspace%7B0.2em%7D%20%5E%7Bc%7D%5Cbf%7BM%7D_w%20%5Cbegin%7Bbmatrix%7D%20X_%7Bw%7D%20%5C%5C%20Y_%7Bw%7D%20%5C%5C%20Z_%7Bw%7D%20%5C%5C%201%20%5Cend%7Bbmatrix%7D%0A">
+</p>
+
 We, therefore, need to use the inverse to express the trajectory in the world coordinate system.
+
+<p align="center">
+<img src="https://render.githubusercontent.com/render/math?math=%5Chspace%7B0.2em%7D%20%5E%7Bw%7D%5Cbf%7BM%7D_c%20%3D%20%5Chspace%7B0.2em%7D%20(%5E%7Bc%7D%5Cbf%7BM%7D_w)%5E%7B-1%7D%0A">
+</p>
 
 This section of code shows the core implementation of the `estimate_trajectory` function.
 
