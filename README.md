@@ -39,7 +39,6 @@ The required Python packages are:
 - numpy
 - matplotlib
 - cv2
-- notebook
 
 ## Loading and Visualizing the Data
 
@@ -305,9 +304,3 @@ Here is the estimated vehicle trajectory:
 <p align="center">
 <img src="output/vehicle-trajectory.png"/>
 </p>
-
-## To do
-
-- [ ] Add section Dependencies
-- [x] Add section Camera Trajectory Estimation
-- [ ] Add section References
