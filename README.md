@@ -95,25 +95,14 @@ Here is a list of common feature detectors:
 
 The OpenCV documentation provides implementation [examples](https://docs.opencv.org/3.4.3/db/d27/tutorial_py_table_of_contents_feature2d.html) of these detectors.
 
+This section of code shows the implementation of the `extract_features` function.
+
 ```python
-def extract_features(image):
-    """
-    Find keypoints and descriptors for the image
+# Initiate ORB detector
+orb = cv2.ORB_create(nfeatures=1500)
 
-    Arguments:
-    image -- a grayscale image
-
-    Returns:
-    kp -- list of the extracted keypoints (features) in an image
-    des -- list of the keypoint descriptors in an image
-    """
-    # Initiate ORB detector
-    orb = cv2.ORB_create(nfeatures=1500)
-    
-    # Find the keypoints and descriptors with ORB
-    kp, des = orb.detectAndCompute(image, None)
-    
-    return kp, des
+# Find the keypoints and descriptors with ORB
+kp, des = orb.detectAndCompute(image, None)
 ```
 
 Here is an example of the extracted features:
@@ -139,33 +128,22 @@ The **Brute-Force** matcher compares one descriptor in the first image to all de
 
 **FLANN** stands for Fast Library for Approximate Nearest Neighbors. It contains a collection of algorithms optimized for fast neighbor search in datasets and high dimensional features.
 
+This section of code shows the implementation of the `match_features` function.
+
 ```python
-def match_features(des1, des2):
-    """
-    Match features from two images
+# Define FLANN parameters
+FLANN_INDEX_LSH = 6
+index_params = dict(algorithm = FLANN_INDEX_LSH,
+                    table_number = 6,
+                    key_size = 12,
+                    multi_probe_level = 1)
+search_params = dict(checks = 50)
 
-    Arguments:
-    des1 -- list of the keypoint descriptors in the first image
-    des2 -- list of the keypoint descriptors in the second image
+# Initiate FLANN matcher
+flann = cv2.FlannBasedMatcher(index_params, search_params)
 
-    Returns:
-    match -- list of matched features from two images. Each match[i] is k or less matches for the same query descriptor
-    """
-    # Define FLANN parameters
-    FLANN_INDEX_LSH = 6
-    index_params = dict(algorithm = FLANN_INDEX_LSH,
-                        table_number = 6,
-                        key_size = 12,
-                        multi_probe_level = 1)
-    search_params = dict(checks = 50)
-    
-    # Initiate FLANN matcher
-    flann = cv2.FlannBasedMatcher(index_params, search_params)
-    
-    # Find matches with FLANN
-    match = flann.knnMatch(des1, des2, k=2)
-    
-    return match
+# Find matches with FLANN
+match = flann.knnMatch(des1, des2, k=2)
 ```
 
 Here is an example of the matched features:
@@ -211,37 +189,37 @@ We then need to express pixels from features `f[k - 1]` in camera coordinates to
 <img src="https://render.githubusercontent.com/render/math?math=%5Cmathbf%7BP%7D_%7Bc%7D%0A%3D%0A%5Cbegin%7Bbmatrix%7D%0AX_%7Bc%7D%20%5C%5C%0AY_%7Bc%7D%20%5C%5C%0AZ_%7Bc%7D%0A%5Cend%7Bbmatrix%7D%0A%3D%0A%5Cmathbf%7BK%7D%5E%7B-1%7D%0A%5Cbegin%7Bbmatrix%7D%0Ax_%7Bi%7D%20%5C%5C%0Ay_%7Bi%7D%20%5C%5C%0Az_%7Bi%7D%0A%5Cend%7Bbmatrix%7D%0A%3D%0A%5Cmathbf%7BK%7D%5E%7B-1%7D%20s%20%0A%5Cbegin%7Bbmatrix%7D%0Au%20%5C%5C%0Av%20%5C%5C%0A1%20%0A%5Cend%7Bbmatrix%7D%0A">
 </p>
 
-This section of code shows the core implementation of the `camera_motion` function.
+This section of code shows the implementation of the `camera_motion` function.
 
 ```python
-    # Iterate through the matched features
-    for m in match:
-        # Get the pixel coordinates of features f[k - 1] and f[k]
-        u1, v1 = kp1[m.queryIdx].pt
-        u2, v2 = kp2[m.trainIdx].pt
-        
-        # Get the scale of features f[k - 1] from the depth map
-        s = depth1[int(v1), int(u1)]
-        
-        # Check for valid scale values
-        if s < 1000:
-            # Transform pixel coordinates to camera coordinates using the pinhole camera model
-            p_c = np.linalg.inv(k) @ (s * np.array([u1, v1, 1]))
-            
-            # Save the results
-            image1_points.append([u1, v1])
-            image2_points.append([u2, v2])
-            objectpoints.append(p_c)
-        
-    # Convert lists to numpy arrays
-    objectpoints = np.vstack(objectpoints)
-    imagepoints = np.array(image2_points)
+# Iterate through the matched features
+for m in match:
+    # Get the pixel coordinates of features f[k - 1] and f[k]
+    u1, v1 = kp1[m.queryIdx].pt
+    u2, v2 = kp2[m.trainIdx].pt
     
-    # Determine the camera pose from the Perspective-n-Point solution using the RANSAC scheme
-    _, rvec, tvec, _ = cv2.solvePnPRansac(objectpoints, imagepoints, k, None)
+    # Get the scale of features f[k - 1] from the depth map
+    s = depth1[int(v1), int(u1)]
     
-    # Convert rotation vector to rotation matrix
-    rmat, _ = cv2.Rodrigues(rvec)
+    # Check for valid scale values
+    if s < 1000:
+        # Transform pixel coordinates to camera coordinates using the pinhole camera model
+        p_c = np.linalg.inv(k) @ (s * np.array([u1, v1, 1]))
+        
+        # Save the results
+        image1_points.append([u1, v1])
+        image2_points.append([u2, v2])
+        objectpoints.append(p_c)
+    
+# Convert lists to numpy arrays
+objectpoints = np.vstack(objectpoints)
+imagepoints = np.array(image2_points)
+
+# Determine the camera pose from the Perspective-n-Point solution using the RANSAC scheme
+_, rvec, tvec, _ = cv2.solvePnPRansac(objectpoints, imagepoints, k, None)
+
+# Convert rotation vector to rotation matrix
+rmat, _ = cv2.Rodrigues(rvec)
 ```
 
 The *Detailed Description* section of [OpenCV: Camera Calibration and 3D Reconstruction](https://docs.opencv.org/3.4.3/d9/d0c/group__calib3d.html) explains the connection between the 3D world coordinate system and the 2D image coordinate system.
@@ -262,39 +240,39 @@ We, therefore, need to use the inverse to express the trajectory in the world co
 <img src="https://render.githubusercontent.com/render/math?math=%5Chspace%7B0.2em%7D%20%5E%7Bw%7D%5Cbf%7BM%7D_c%20%3D%20%5Chspace%7B0.2em%7D%20(%5E%7Bc%7D%5Cbf%7BM%7D_w)%5E%7B-1%7D%0A">
 </p>
 
-This section of code shows the core implementation of the `estimate_trajectory` function.
+This section of code shows the implementation of the `estimate_trajectory` function.
 
 ```python
-    # Create variables for computation
-    trajectory = np.zeros((3, len(matches) + 1))
-    robot_pose = np.zeros((len(matches) + 1, 4, 4))
+# Create variables for computation
+trajectory = np.zeros((3, len(matches) + 1))
+robot_pose = np.zeros((len(matches) + 1, 4, 4))
+
+# Initialize camera pose
+robot_pose[0] = np.eye(4)
+
+# Iterate through the matched features
+for i in range(len(matches)):
+    # Estimate camera motion between a pair of images
+    rmat, tvec, image1_points, image2_points = estimate_motion(matches[i], kp_list[i], kp_list[i + 1], k, depth_maps[i])
     
-    # Initialize camera pose
-    robot_pose[0] = np.eye(4)
+    # Save camera movement visualization
+    if save:
+        image = visualize_camera_movement(dataset_handler.images_rgb[i], image1_points, dataset_handler.images_rgb[i + 1], image2_points)
+        plt.imsave('{}/frame_{:02d}.jpg'.format(save, i), image)
     
-    # Iterate through the matched features
-    for i in range(len(matches)):
-        # Estimate camera motion between a pair of images
-        rmat, tvec, image1_points, image2_points = estimate_motion(matches[i], kp_list[i], kp_list[i + 1], k, depth_maps[i])
-        
-        # Save camera movement visualization
-        if save:
-            image = visualize_camera_movement(dataset_handler.images_rgb[i], image1_points, dataset_handler.images_rgb[i + 1], image2_points)
-            plt.imsave('{}/frame_{:02d}.jpg'.format(save, i), image)
-        
-        # Determine current pose from rotation and translation matrices
-        current_pose = np.eye(4)
-        current_pose[0:3, 0:3] = rmat
-        current_pose[0:3, 3] = tvec.T
-        
-        # Build the robot's pose from the initial position by multiplying previous and current poses
-        robot_pose[i + 1] = robot_pose[i] @ np.linalg.inv(current_pose)
-        
-        # Calculate current camera position from origin
-        position = robot_pose[i + 1] @ np.array([0., 0., 0., 1.])
-        
-        # Build trajectory
-        trajectory[:, i + 1] = position[0:3]
+    # Determine current pose from rotation and translation matrices
+    current_pose = np.eye(4)
+    current_pose[0:3, 0:3] = rmat
+    current_pose[0:3, 3] = tvec.T
+    
+    # Build the robot's pose from the initial position by multiplying previous and current poses
+    robot_pose[i + 1] = robot_pose[i] @ np.linalg.inv(current_pose)
+    
+    # Calculate current camera position from origin
+    position = robot_pose[i + 1] @ np.array([0., 0., 0., 1.])
+    
+    # Build trajectory
+    trajectory[:, i + 1] = position[0:3]
 ```
 
 ### Visualize Vehicle Trajectory
