@@ -1,36 +1,20 @@
 # Visual Odometry for Localization in Autonomous Driving
 
-This project implements visual odometry to estimate the trajectory of a self-driving car. It analyzes images taken with a monocular camera set up on the vehicle.
+This project implements [visual odometry](https://en.wikipedia.org/wiki/Visual_odometry) to estimate the trajectory of a self-driving car.
 
-I submitted this project for the programming assignment of *Module 2: Visual Features - Detection, Description and Matching* in the [Visual Perception for Self-Driving Cars](https://www.coursera.org/learn/visual-perception-self-driving-cars?) course. The [University of Toronto](https://www.utoronto.ca/) provided the starter code and the data from the [CARLA](https://carla.org/) simulator.
+I developed this project in the [Visual Perception for Self-Driving Cars](https://www.coursera.org/learn/visual-perception-self-driving-cars?) course. The [University of Toronto](https://www.utoronto.ca/) provided the starter code and the data from the [CARLA](https://carla.org/) simulator.
 
 **The steps of this project are the following:**
 
-- Extract features from the photographs taken with a camera setup on the vehicle.
-- Use the extracted features to find matches between the features in different photographs.
-- Use the found matches to estimate the camera motion between subsequent photographs.
-- Use the estimated camera motion to build the vehicle trajectory.
+- Acquire an image and extract features using a feature detector.
+- Find corresponding features in another image with feature matching.
+- Determine the camera pose from the Perspective-n-Point solution using the RANSAC scheme.
+- Build the vehicle trajectory from the camera pose estimation.
 
 <p align="center">
 <img src="output/camera-motion.gif" width=67% height=67%/>
 </p>
 
-
-
-## Preliminaries
-
-Here is a definition of **visual odometry** from [Wikipedia](https://en.wikipedia.org/wiki/Visual_odometry).
-
-> In robotics and computer vision, visual odometry is the process of determining the position and orientation of a robot by analyzing the associated camera images. It has been used in a wide variety of robotic applications, such as on the Mars Exploration Rovers.
-
-The algorithm implementation is divided into four parts.
-
-1. Acquire an image and extract features using a *feature detector*.
-2. Find corresponding features in another image with *feature matching* or *feature tracking*.
-3. Determine the camera pose from the *Perspective-n-Point* solution using the *RANSAC* scheme.
-4. Propagate the vehicle trajectory from the camera pose estimation.
-
-This [thesis](http://publications.lib.chalmers.se/records/fulltext/246134/246134.pdf) covers each part of the algorithm in greater detail.
 
 ## Dependencies
 
