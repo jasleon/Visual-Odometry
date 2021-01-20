@@ -289,8 +289,16 @@ This section of code shows the core implementation of the `estimate_trajectory` 
         trajectory[:, i + 1] = position[0:3]
 ```
 
+### Visualize Vehicle Trajectory
+
+Here is the estimated vehicle trajectory:
+
+<p align="center">
+<img src="output/vehicle-trajectory.png"/>
+</p>
+
 ## To do
 
 - [ ] Add section Dependencies
-- [ ] Add section Camera Trajectory Estimation
+- [x] Add section Camera Trajectory Estimation
 - [ ] Add section References
