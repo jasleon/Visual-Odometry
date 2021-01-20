@@ -32,6 +32,15 @@ The algorithm implementation is divided into four parts.
 
 This [thesis](http://publications.lib.chalmers.se/records/fulltext/246134/246134.pdf) covers each part of the algorithm in greater detail.
 
+## Dependencies
+
+The required Python packages are:
+
+- numpy
+- matplotlib
+- cv2
+- notebook
+
 ## Loading and Visualizing the Data
 
 The starter code provides a convenient dataset handler class to read and iterate through samples taken from the [CARLA](https://carla.org/) simulator.
