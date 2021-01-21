@@ -2,8 +2,6 @@
 
 This project implements [visual odometry](https://en.wikipedia.org/wiki/Visual_odometry) to estimate the trajectory of a self-driving car.
 
-I developed this project in the [Visual Perception for Self-Driving Cars](https://www.coursera.org/learn/visual-perception-self-driving-cars?) course. The [University of Toronto](https://www.utoronto.ca/) provided the starter code and the data from the [CARLA](https://carla.org/) simulator.
-
 **The steps of this project are the following:**
 
 - Acquire an image and extract features using a feature detector.
@@ -15,6 +13,21 @@ I developed this project in the [Visual Perception for Self-Driving Cars](https:
 <img src="output/camera-motion.gif" width=67% height=67%/>
 </p>
 
+
+## Table of Contents
+- [Acknowledgements](#acknowledgements)
+- [Dependencies](#dependencies)
+- [Loading and Visualizing the Data](#loading-and-visualizing-the-data)
+- [Feature Extraction](#feature-extraction)
+- [Feature Matching](#feature-matching)
+- [Trajectory Estimation](#trajectory-estimation)
+  - [Estimating Camera Motion between a Pair of Images](#estimating-camera-motion-between-a-pair-of-images)
+  - [Camera Trajectory Estimation](#camera-trajectory-estimation)
+  - [Visualize Vehicle Trajectory](#visualize-vehicle-trajectory)
+
+## Acknowledgements
+
+This project is a programming assignment from the [Visual Perception for Self-Driving Cars](https://www.coursera.org/learn/visual-perception-self-driving-cars?) course. The [University of Toronto](https://www.utoronto.ca/) provided the starter code and the data from the [CARLA](https://carla.org/) simulator.
 
 ## Dependencies
 
