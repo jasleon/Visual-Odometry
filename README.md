@@ -215,8 +215,9 @@ Finally, we build the vehicle trajectory by considering the camera pose change i
 It is important to note that the `estimate_motion` function returns the rotation and translation from the world coordinate system to the camera coordinate system (see [cv2.solvePnP](https://docs.opencv.org/3.4.3/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d)).
 
 <p align="center">
-<img src="https://render.githubusercontent.com/render/math?math=%5Cbegin%7Bbmatrix%7D%20X_c%20%5C%5C%20Y_c%20%5C%5C%20Z_c%20%5C%5C%201%20%5Cend%7Bbmatrix%7D%20%3D%20%5Chspace%7B0.2em%7D%20%5E%7Bc%7D%5Cbf%7BM%7D_w%20%5Cbegin%7Bbmatrix%7D%20X_%7Bw%7D%20%5C%5C%20Y_%7Bw%7D%20%5C%5C%20Z_%7Bw%7D%20%5C%5C%201%20%5Cend%7Bbmatrix%7D%0A">
+<img src="https://render.githubusercontent.com/render/math?math=%5Cbegin%7Bbmatrix%7D%20%0AX_c%20%5C%5C%20%0AY_c%20%5C%5C%20%0AZ_c%20%5C%5C%20%0A1%20%0A%5Cend%7Bbmatrix%7D%20%0A%3D%20%0A%5Chspace%7B0.2em%7D%20%5E%7Bc%7D%5Cbf%7BM%7D_w%20%0A%5Cbegin%7Bbmatrix%7D%20%0AX_w%20%5C%5C%20%0AY_w%20%5C%5C%20%0AZ_w%20%5C%5C%20%0A1%20%0A%5Cend%7Bbmatrix%7D%0A">
 </p>
+
 
 We, therefore, need to use the inverse to express the trajectory in the world coordinate system.
 
