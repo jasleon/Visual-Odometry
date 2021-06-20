@@ -35,7 +35,16 @@ The required Python packages are:
 
 - numpy
 - matplotlib
-- cv2
+- opencv
+- jupyter
+
+You can also create the environment from the [environment.yml](./environment.yml) file
+
+```bash
+conda env create -f environment.yml
+```
+
+
 
 ## Loading and Visualizing the Data
 
