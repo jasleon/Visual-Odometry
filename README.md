@@ -10,7 +10,7 @@ This project implements [visual odometry](https://en.wikipedia.org/wiki/Visual_o
 - Build the vehicle trajectory from the camera pose estimation.
 
 <p align="center">
-<img src="output/camera-motion.gif" width=67% height=67%/>
+<img src="output/camera-motion.gif" width="640" height="480" />
 </p>
 
 
@@ -61,19 +61,19 @@ Upon creation of the dataset handler object, all the frames will be automaticall
 Here is an example of the grayscale images:
 
 <p align="center">
-<img src="output/image.png" width=67% height=67%/>
+<img src="output/image.png" width="640" height="480" />
 </p>
 
 Here is an example of the RGB images:
 
 <p align="center">
-<img src="output/image-rgb.png" width=67% height=67%/>
+<img src="output/image-rgb.png" width="640" height="480" />
 </p>
 
 Here is an example of the depth maps:
 
 <p align="center">
-<img src="output/depth-maps.png" width=67% height=67%/>
+<img src="output/depth-maps.png" width="640" height="480" />
 </p>
 
 
@@ -114,7 +114,7 @@ kp, des = orb.detectAndCompute(image, None)
 Here is an example of the extracted features:
 
 <p align="center">
-<img src="output/feature-extraction.png" width=67% height=67%/>
+<img src="output/feature-extraction.png" width="640" height="480" />
 </p>
 
 ## Feature Matching
