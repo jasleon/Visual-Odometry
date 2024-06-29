@@ -191,9 +191,29 @@ Fortunately, OpenCV has a robust implementation of the PnP algorithm in `cv2.sol
 
 We then need to express pixels from features `f[k - 1]` in camera coordinates to get *objectPoints*. This coordinate transformation derives from the pinhole camera model and is given by the equation.
 
-<p align="center">
-<img src="https://render.githubusercontent.com/render/math?math=%5Cmathbf%7BP%7D_%7Bc%7D%0A%3D%0A%5Cbegin%7Bbmatrix%7D%0AX_%7Bc%7D%20%5C%5C%0AY_%7Bc%7D%20%5C%5C%0AZ_%7Bc%7D%0A%5Cend%7Bbmatrix%7D%0A%3D%0A%5Cmathbf%7BK%7D%5E%7B-1%7D%0A%5Cbegin%7Bbmatrix%7D%0Ax_%7Bi%7D%20%5C%5C%0Ay_%7Bi%7D%20%5C%5C%0Az_%7Bi%7D%0A%5Cend%7Bbmatrix%7D%0A%3D%0A%5Cmathbf%7BK%7D%5E%7B-1%7D%20s%20%0A%5Cbegin%7Bbmatrix%7D%0Au%20%5C%5C%0Av%20%5C%5C%0A1%20%0A%5Cend%7Bbmatrix%7D%0A">
-</p>
+```math
+\mathbf{P}_{c}
+=
+\begin{bmatrix}
+X_{c} \\
+Y_{c} \\
+Z_{c}
+\end{bmatrix}
+=
+\mathbf{K}^{-1}
+\begin{bmatrix}
+x_{i} \\
+y_{i} \\
+z_{i}
+\end{bmatrix}
+=
+\mathbf{K}^{-1} s 
+\begin{bmatrix}
+u \\
+v \\
+1 
+\end{bmatrix}
+```
 
 This section of code shows the implementation of the `camera_motion` function.
 
@@ -236,16 +256,28 @@ Finally, we build the vehicle trajectory by considering the camera pose change i
 
 It is important to note that the `estimate_motion` function returns the rotation and translation from the world coordinate system to the camera coordinate system (see [cv2.solvePnP](https://docs.opencv.org/3.4.3/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d)).
 
-<p align="center">
-<img src="https://render.githubusercontent.com/render/math?math=%5Cbegin%7Bbmatrix%7D%20%0AX_c%20%5C%5C%20%0AY_c%20%5C%5C%20%0AZ_c%20%5C%5C%20%0A1%20%0A%5Cend%7Bbmatrix%7D%20%0A%3D%20%0A%5Chspace%7B0.2em%7D%20%5E%7Bc%7D%5Cbf%7BM%7D_w%20%0A%5Cbegin%7Bbmatrix%7D%20%0AX_w%20%5C%5C%20%0AY_w%20%5C%5C%20%0AZ_w%20%5C%5C%20%0A1%20%0A%5Cend%7Bbmatrix%7D%0A">
-</p>
-
+```math
+\begin{bmatrix} 
+X_c \\ 
+Y_c \\ 
+Z_c \\ 
+1 
+\end{bmatrix} 
+= 
+\hspace{0.2em} ^{c}\bf{M}_w 
+\begin{bmatrix} 
+X_w \\ 
+Y_w \\ 
+Z_w \\ 
+1 
+\end{bmatrix}
+```
 
 We, therefore, need to use the inverse to express the trajectory in the world coordinate system.
 
-<p align="center">
-<img src="https://render.githubusercontent.com/render/math?math=%5Chspace%7B0.2em%7D%20%5E%7Bw%7D%5Cbf%7BM%7D_c%20%3D%20%5Chspace%7B0.2em%7D%20(%5E%7Bc%7D%5Cbf%7BM%7D_w)%5E%7B-1%7D%0A">
-</p>
+```math
+\hspace{0.2em} ^{w}\bf{M}_c = \hspace{0.2em} (^{c}\bf{M}_w)^{-1}
+```
 
 This section of code shows the implementation of the `estimate_trajectory` function.
 
